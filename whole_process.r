@@ -3,6 +3,7 @@ whole_process <- function()
   source("~/git/ronald_r_scripts/GDC_metadata_download.ronald.r")
   source("~/git/ronald_r_scripts/GDC_raw_count_merge.vRonald.r")
   source("~/git/ronald_r_scripts/get_listof_UUIDs.r")
+  library(DESeq)
   
   # downloads data
   download_project_data("TCGA-LUAD")
