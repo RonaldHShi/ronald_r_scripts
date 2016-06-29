@@ -1,3 +1,4 @@
+if ( is.element("RJSONIO", installed.packages()[,1]) == FALSE ){ install.packages("RJSONIO") }
 library(RJSONIO)
 library(RCurl)
 library(tools)
