@@ -2,7 +2,9 @@ library(RJSONIO)
 library(RCurl)
 library(tools)
 
-export_listof_UUIDs <- function(project="", names="", tsv="", download=F)
+# given a project name, list of names, or a tsv with the file names 
+# as the column names produces a list of UUIDs
+export_listof_UUIDs <- function(project="", names="", tsv="")
 {
   if (project != "")
   {
@@ -12,20 +14,6 @@ export_listof_UUIDs <- function(project="", names="", tsv="", download=F)
       stop(paste("project name:", paste('"', project, '"', sep=""), "not found found!"))
     }
     write(sort(vector_of_files), paste(file_path_sans_ext(project),"file_UUIDs",sep="_"), sep = "\n")
-    if(download)
-    {
-      if(F){
-      print(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", paste(vector_of_files[c(1:125)], collapse = ","), "'", sep=""))
-      # issue at this point using curl to download files
-      system(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", paste(vector_of_files[c(1:125)], collapse = ","), "'", sep=""))
-      }
-      print(length(vector_of_files))
-    for(j in 1:length(vector_of_files))
-      {
-        print(j)
-        system(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", vector_of_files[j], "'", sep=""))
-      }
-    }
   }
   else if (names != "")
   {
@@ -96,4 +84,21 @@ get_names_list_from_tsv <- function(file)
 {
   my.table <- read.table(file, row.names=1, header=TRUE, sep="\t", comment.char="", quote="", check.names=FALSE)
   return(colnames(my.table))
+}
+
+# downloads all data for a given project
+download_project_data <- function(project)
+{
+  vector_of_files <- unlist(get_UUIDs_from_project(project))
+  if(F){
+    print(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", paste(vector_of_files[c(1:125)], collapse = ","), "'", sep=""))
+    # issue at this point using curl to download files
+    system(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", paste(vector_of_files[c(1:125)], collapse = ","), "'", sep=""))
+  }
+  print(length(vector_of_files))
+  for(j in 1:length(vector_of_files))
+  {
+    print(j)
+    system(paste("curl --remote-name --remote-header-name 'https://gdc-api.nci.nih.gov/data/", vector_of_files[j], "'", sep=""))
+  }
 }
