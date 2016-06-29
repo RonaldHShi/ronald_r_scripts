@@ -1,8 +1,10 @@
 whole_process <- function()
 {
+  source("~/git/Kevin_R_scripts/install_r_prereqs.r")
   source("~/git/ronald_r_scripts/GDC_metadata_download.ronald.r")
   source("~/git/ronald_r_scripts/GDC_raw_count_merge.vRonald.r")
   source("~/git/ronald_r_scripts/get_listof_UUIDs.r")
+  install_r_prereqs()
   library(DESeq)
   
   # downloads data
