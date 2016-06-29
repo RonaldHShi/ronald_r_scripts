@@ -1,4 +1,14 @@
-if ( is.element("RJSONIO", installed.packages()[,1]) == FALSE ){ install.packages("RJSONIO") }
+pkgTest <- function(x)
+{
+  if (!require(x,character.only = TRUE))
+  {
+    install.packages(x,dep=TRUE)
+    if(!require(x,character.only=TRUE)) stop("Package not found")
+  }
+}
+pkgTest("RJSONIO")
+pkgTest("RCurl")
+pkgTest("tools")
 library(RJSONIO)
 library(RCurl)
 library(tools)
